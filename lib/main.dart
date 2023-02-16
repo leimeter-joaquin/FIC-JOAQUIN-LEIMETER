@@ -21,10 +21,14 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.outfitTextTheme(),
       ),
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: CardColors().cardBackground,
+          title: const Text('Week 01 - Flutter'),
+        ),
         backgroundColor: CardColors().background,
         body: const SafeArea(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(40, 80, 40, 0),
+            padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
             child: MyCard(),
           ),
         ),
@@ -54,27 +58,47 @@ class MyCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: const Image(
-              image: AssetImage('assets/card/images/image-equilibrium.jpg'),
+              image: AssetImage(
+                'assets/card/images/image-equilibrium.jpg',
+              ),
             ),
           ),
 
-          const Gap(20),
+          const Gap(22),
 
           // Title
           Text(
-            'Title',
-            style: TextStyle(color: CardColors().white),
+            'Equilibrium #3429',
+            style: TextStyle(
+              color: CardColors().white,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
           ),
 
-          const Gap(20),
+          const Gap(16),
 
           // description
-          const Text('Description'),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 4.0,
+            ),
+            child: Text(
+              'Our Equilibrium collection promotes balance and calm',
+              style: TextStyle(
+                fontSize: 16,
+                color: CardColors().softBlue,
+                height: 1.5,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
 
-          const Gap(20),
+          const Gap(16),
 
           // price & expiration
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
@@ -84,43 +108,69 @@ class MyCard extends StatelessWidget {
                     semanticsLabel: 'Acme Logo',
                   ),
 
+                  const Gap(8),
                   // price with ETH, maybe wrap in Row
-                  const Text('0.041'),
-                  const Text('ETH'),
+                  Text(
+                    '0.041 ETH',
+                    style: TextStyle(
+                      color: CardColors().cyan,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ],
               ),
               Row(
                 children: [
                   // Clok icon
                   SvgPicture.asset(
-                    'assets/card/icons/icon-ethereum.svg',
+                    'assets/card/icons/icon-clock.svg',
                     semanticsLabel: 'Acme Logo',
                   ),
-
+                  const Gap(8),
                   // days left
-                  const Text('3 days left')
+                  Text(
+                    '3 days left',
+                    style: TextStyle(
+                      color: CardColors().softBlue,
+                    ),
+                  ),
                 ],
               )
             ],
           ),
 
-          const Gap(20),
+          const Gap(8),
 
           // Divider
           Divider(color: CardColors().white),
 
-          const Gap(20),
+          const Gap(8),
 
           // user
           Row(
-            children: const [
+            children: [
               // User Icon
-              Image(
-                image: AssetImage('assets/card/images/image-avatar.png'),
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white),
+                ),
+                height: 40,
+                child: const Image(
+                  image: AssetImage('assets/card/images/image-avatar.png'),
+                ),
               ),
 
+              const Gap(18),
               // Creation of Jules Wyvern
-              Text('creation of this dude')
+              Text(
+                'Creation of ',
+                style: TextStyle(color: CardColors().softBlue),
+              ),
+              Text(
+                'Jules Wyvern',
+                style: TextStyle(color: CardColors().white),
+              ),
             ],
           ),
         ],
@@ -128,26 +178,3 @@ class MyCard extends StatelessWidget {
     );
   }
 }
-
-
-          //   'AAA',
-          //   style: TextStyle(fontWeight: FontWeight.w600),
-          // ),
-          // const Text('asd'),
-          // const Text('asd'),
-          // Align(
-          //   alignment: Alignment.topLeft,
-          //   child: SvgPicture.asset(
-          //     'assets/icon-ethereum.svg',
-          //     semanticsLabel: 'Acme Logo',
-          //   ),
-          // )
-
-          // Align(
-          //   alignment: Alignment.topLeft,
-          //   child: SvgPicture.asset(
-          //     'assets/card/icons/icon-ethereum.svg',
-          //     semanticsLabel: 'Acme Logo',
-          //   ),
-          // ),
-
