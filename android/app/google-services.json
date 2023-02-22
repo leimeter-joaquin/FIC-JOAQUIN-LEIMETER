@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "337532711981",
+    "project_id": "task-list-rr",
+    "storage_bucket": "task-list-rr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337532711981:android:5b6be5f88fcf9ca110f4a4",
+        "android_client_info": {
+          "package_name": "com.example.fic_joaquin_leimeter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337532711981-lc2diukrvrkruqqtn0mj6s1fb9nbom24.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhHcO2b8iN9OFh73IppAugkCFjGpa5QCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337532711981-lc2diukrvrkruqqtn0mj6s1fb9nbom24.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "337532711981-cto0secr3joioec2up5ore4j0f1ruej0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ficJoaquinLeimeter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
