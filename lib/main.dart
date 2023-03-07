@@ -47,19 +47,18 @@ class MyApp extends StatelessWidget {
 class MyList extends StatelessWidget {
   const MyList({super.key});
 
-  /// Esto es una porquería hay que ver de mejorarlo. TODO: Aprender a usar Streams.
-  Stream<List<TaskModel>> _getTasks() async* {
-    // Get a Stream from FirebaseFirestore
-    Stream<QuerySnapshot<Map<String, dynamic>>> collectionSnapshotsStream =
-        FirebaseFirestore.instance.collection('tasks').snapshots();
-
-    await for (final QuerySnapshot querySnapshot in collectionSnapshotsStream) {
+  Stream<List<TaskModel>> _getTasks(
+      Stream<QuerySnapshot> collectionSnapshotsStream) async* {
+    // This await for loop continues iterating until the Stream is closed.
+    await for (final querySnapshot in collectionSnapshotsStream) {
       List<TaskModel> tasks = [];
       List<QueryDocumentSnapshot<Object?>> tasksSnapshot = querySnapshot.docs;
+
       for (final task in tasksSnapshot) {
         var taskData = task.data();
         tasks.add(TaskModel.fromJson(taskData as Map<String, dynamic>));
       }
+
       yield tasks;
     }
   }
@@ -67,9 +66,12 @@ class MyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: _getTasks(),
+      stream:
+          _getTasks(FirebaseFirestore.instance.collection('tasks').snapshots()),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data!.isEmpty) return const Text("There are no Tasks");
+
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
