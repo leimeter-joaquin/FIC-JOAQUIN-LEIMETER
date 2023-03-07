@@ -44,35 +44,30 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyList extends StatefulWidget {
+class MyList extends StatelessWidget {
   const MyList({super.key});
 
-  @override
-  State<MyList> createState() => _MyListState();
-}
+  /// Esto es una porquería hay que ver de mejorarlo. TODO: Aprender a usar Streams.
+  Stream<List<TaskModel>> _getTasks() async* {
+    // Get a Stream from FirebaseFirestore
+    Stream<QuerySnapshot<Map<String, dynamic>>> collectionSnapshotsStream =
+        FirebaseFirestore.instance.collection('tasks').snapshots();
 
-class _MyListState extends State<MyList> {
-  Future<List<TaskModel>> _getTasks() async {
-    List<TaskModel> tasks = [];
-
-    CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection('tasks');
-    QuerySnapshot tasksQuerySnapshot = await collectionRef.get();
-    List<QueryDocumentSnapshot> tasksDoc = tasksQuerySnapshot.docs;
-
-    for (QueryDocumentSnapshot doc in tasksDoc) {
-      var task = doc.data();
-      print('task: $task');
-      tasks.add(TaskModel.fromJson(doc.data() as Map<String, dynamic>));
+    await for (final QuerySnapshot querySnapshot in collectionSnapshotsStream) {
+      List<TaskModel> tasks = [];
+      List<QueryDocumentSnapshot<Object?>> tasksSnapshot = querySnapshot.docs;
+      for (final task in tasksSnapshot) {
+        var taskData = task.data();
+        tasks.add(TaskModel.fromJson(taskData as Map<String, dynamic>));
+      }
+      yield tasks;
     }
-
-    return tasks;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _getTasks(),
+    return StreamBuilder(
+      stream: _getTasks(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
@@ -81,9 +76,16 @@ class _MyListState extends State<MyList> {
               TaskModel task = snapshot.data![index];
               return Column(
                 children: [
-                  Text(task.title),
-                  Text(task.description),
-                  Text('${task.done}'),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text(task.title),
+                        Text(task.description),
+                        Text('${task.done}'),
+                      ],
+                    ),
+                  ),
                 ],
               );
             },
@@ -92,7 +94,7 @@ class _MyListState extends State<MyList> {
         if (snapshot.hasError) {
           return Text('error: ${snapshot.error}');
         }
-        return const Text('loading');
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
